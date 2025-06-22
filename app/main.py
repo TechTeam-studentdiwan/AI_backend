@@ -42,9 +42,9 @@ async def start_conversation(request: StartConversationRequest):
     """Start a new conversation"""
     try:
         # Generate unique conversation ID in the format CHAT-{random_string}-{timestamp}
-        random_string = ''.join(random.choices('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', k=8))
+        random_string = ''.join(random.choices('abcdefghijklmnopqrstuvwxyz0123456789', k=8))
         timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
-        conversation_id = f"CHAT-{random_string}-{timestamp}"
+        conversation_id = f"chat-{random_string}-{timestamp}"
 
         # Initialize messages list
         messages = []
@@ -175,7 +175,6 @@ async def add_message(conversation_id: str, request: AddMessageRequest):
                 await update_conversation(conversation_id, {"title": title})
 
         return {
-            "user_message": user_message.dict(),
             "ai_response": ai_message.dict()
         }
 

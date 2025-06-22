@@ -27,15 +27,20 @@ class OpenAIService:
                 "content": msg.content
             })
 
+
+
+
         try:
-            response = await self.client.chat.completions.create(
-                model=self.model,
-                messages=openai_messages,
-                temperature=0.7,
-                max_tokens=1000
+            response = await self.client.responses.create(
+                model="gpt-4.1-mini",
+                tools=[{
+                    "type": "file_search",
+                    "vector_store_ids": ["vs_6856828126908191b6d5441d82849847"],
+                }],
+                input=openai_messages
             )
 
-            return response.choices[0].message.content
+            return response.output[1].content[0].text
         except Exception as e:
             raise Exception(f"OpenAI API error: {str(e)}")
 
