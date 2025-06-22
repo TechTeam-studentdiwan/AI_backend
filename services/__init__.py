@@ -40,7 +40,8 @@ class OpenAIService:
                 input=openai_messages
             )
 
-            return response.output[1].content[0].text
+            return  response.output[0].content[0].text
+
         except Exception as e:
             raise Exception(f"OpenAI API error: {str(e)}")
 
