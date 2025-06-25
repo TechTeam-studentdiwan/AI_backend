@@ -6,7 +6,7 @@ from models import Message, MessageRole
 class OpenAIService:
     def __init__(self):
         self.client = AsyncOpenAI(
-            api_key="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"
+            api_key="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"
         )
         self.model = os.getenv("OPENAI_MODEL", "gpt-4.1-mini")
 
@@ -33,14 +33,11 @@ class OpenAIService:
         try:
             response = await self.client.responses.create(
                 model="gpt-4.1-mini",
-                tools=[{
-                    "type": "file_search",
-                    "vector_store_ids": ["vs_6856828126908191b6d5441d82849847"],
-                }],
                 input=openai_messages
             )
 
-            return response.output[1].content[0].text
+            return  response.output[0].content[0].text
+
         except Exception as e:
             raise Exception(f"OpenAI API error: {str(e)}")
 
