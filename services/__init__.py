@@ -6,7 +6,7 @@ from models import Message, MessageRole
 class OpenAIService:
     def __init__(self):
         self.client = AsyncOpenAI(
-            api_key="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"
+            api_key=os.getenv("OPENAI_API_KEY")
         )
         self.model = os.getenv("OPENAI_MODEL", "gpt-4.1-mini")
 
