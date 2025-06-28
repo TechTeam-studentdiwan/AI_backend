@@ -3,9 +3,12 @@ from datetime import datetime
 import random
 from typing import Optional
 
+from openai import api_key
+
 from models import *
 from core.database import *
 from services import OpenAIService
+
 
 # Initialize OpenAI service
 openai_service = OpenAIService()

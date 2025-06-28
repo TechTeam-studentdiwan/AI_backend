@@ -31,12 +31,17 @@ class OpenAIService:
 
 
         try:
+
             response = await self.client.responses.create(
                 model="gpt-4.1-mini",
+                tools=[{
+                    "type": "file_search",
+                    "vector_store_ids": ["vs_685f67805e008191aa538804d4e40c50"],
+                }],
                 input=openai_messages
             )
 
-            return  response.output[0].content[0].text
+            return response.output[1].content[0].text
 
         except Exception as e:
             raise Exception(f"OpenAI API error: {str(e)}")
