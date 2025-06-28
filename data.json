@@ -1,0 +1,339 @@
+{
+  "patients": [
+    {
+      "id": "P001",
+      "name": "John Smith",
+      "age": 45,
+      "gender": "Male",
+      "faceId": "face_001",
+      "type": "outpatient",
+      "medicalRecord": "MR-2024-001",
+      "phone": "+91-9876543210",
+      "emergencyContact": "+91-9876543211"
+    },
+    {
+      "id": "P002",
+      "name": "Sameer Kumar",
+      "age": 58,
+      "gender": "Male",
+      "faceId": "face_002",
+      "type": "inpatient",
+      "roomNumber": "304",
+      "bedNumber": "A",
+      "admissionDate": "2025-06-25",
+      "medicalRecord": "MR-2024-002",
+      "phone": "+91-9876543220"
+    },
+    {
+      "id": "P003",
+      "name": "Priya Sharma",
+      "age": 32,
+      "gender": "Female",
+      "faceId": "face_003",
+      "type": "outpatient",
+      "medicalRecord": "MR-2024-003",
+      "phone": "+91-9876543230"
+    },
+    {
+      "id": "P004",
+      "name": "Rajesh Patel",
+      "age": 67,
+      "gender": "Male",
+      "faceId": "face_004",
+      "type": "inpatient",
+      "roomNumber": "502",
+      "bedNumber": "B",
+      "admissionDate": "2025-06-26",
+      "medicalRecord": "MR-2024-004"
+    },
+    {
+      "id": "P005",
+      "name": "Fatima Ahmed",
+      "age": 41,
+      "gender": "Female",
+      "faceId": "face_005",
+      "type": "outpatient",
+      "medicalRecord": "MR-2024-005",
+      "phone": "+91-9876543240"
+    }
+  ],
+
+  "appointments": [
+    {
+      "id": "APT001",
+      "patientId": "P001",
+      "patientName": "John Smith",
+      "doctorId": "D001",
+      "doctorName": "Dr. Sarah Khan",
+      "department": "Orthopedic",
+      "date": "2025-06-28",
+      "time": "10:30",
+      "room": "205",
+      "building": "B",
+      "status": "scheduled",
+      "type": "follow-up"
+    },
+    {
+      "id": "APT002",
+      "patientId": "P003",
+      "patientName": "Priya Sharma",
+      "doctorId": "D002",
+      "doctorName": "Dr. Ravi Mehta",
+      "department": "Cardiology",
+      "date": "2025-06-28",
+      "time": "11:00",
+      "room": "112",
+      "building": "A",
+      "status": "scheduled",
+      "type": "consultation"
+    },
+    {
+      "id": "APT003",
+      "patientId": "P005",
+      "patientName": "Fatima Ahmed",
+      "doctorId": "D003",
+      "doctorName": "Dr. Anjali Gupta",
+      "department": "Gynecology",
+      "date": "2025-06-28",
+      "time": "14:30",
+      "room": "310",
+      "building": "C",
+      "status": "scheduled",
+      "type": "check-up"
+    }
+  ],
+
+  "staff": [
+    {
+      "id": "D001",
+      "name": "Dr. Sarah Khan",
+      "role": "Senior Orthopedic Surgeon",
+      "department": "Orthopedic",
+      "specialization": "Joint Replacement",
+      "room": "205",
+      "building": "B",
+      "availability": "Mon-Sat 9:00-17:00"
+    },
+    {
+      "id": "D002",
+      "name": "Dr. Ravi Mehta",
+      "role": "Cardiologist",
+      "department": "Cardiology",
+      "specialization": "Interventional Cardiology",
+      "room": "112",
+      "building": "A"
+    },
+    {
+      "id": "D003",
+      "name": "Dr. Anjali Gupta",
+      "role": "Gynecologist",
+      "department": "Gynecology",
+      "specialization": "Obstetrics",
+      "room": "310",
+      "building": "C"
+    },
+    {
+      "id": "N001",
+      "name": "Nurse Fatima Khan",
+      "role": "Head Nurse",
+      "department": "General Ward",
+      "shift": "Morning",
+      "assignedFloors": [3, 4]
+    },
+    {
+      "id": "N002",
+      "name": "Nurse Preethi Singh",
+      "role": "Staff Nurse",
+      "department": "ICU",
+      "shift": "Morning",
+      "assignedFloors": [5]
+    }
+  ],
+
+  "hospitalLayout": {
+    "buildings": [
+      {
+        "id": "A",
+        "name": "Main Building",
+        "floors": 5,
+        "departments": ["Emergency", "Radiology", "Cardiology", "Laboratory", "Pharmacy"]
+      },
+      {
+        "id": "B",
+        "name": "Specialty Center",
+        "floors": 4,
+        "departments": ["Orthopedic", "Neurology", "Ophthalmology", "ENT"]
+      },
+      {
+        "id": "C",
+        "name": "Women & Children",
+        "floors": 3,
+        "departments": ["Gynecology", "Obstetrics", "Pediatrics", "NICU"]
+      }
+    ],
+
+    "departments": {
+      "Radiology": {
+        "building": "A",
+        "floor": 1,
+        "roomNumbers": ["101", "102", "103"],
+        "nearbyLandmarks": ["Pharmacy", "Main Reception"],
+        "services": ["X-Ray", "MRI", "CT Scan", "Ultrasound"]
+      },
+      "Orthopedic": {
+        "building": "B",
+        "floor": 2,
+        "roomNumbers": ["201", "202", "203", "204", "205"],
+        "nearbyLandmarks": ["Elevator Bank B", "Physiotherapy"],
+        "services": ["Consultation", "Minor Procedures", "Cast Room"]
+      },
+      "Emergency": {
+        "building": "A",
+        "floor": 0,
+        "roomNumbers": ["ER1", "ER2", "ER3", "ER4"],
+        "nearbyLandmarks": ["Main Entrance", "Ambulance Bay"],
+        "services": ["24/7 Emergency Care", "Trauma Center"]
+      },
+      "Pharmacy": {
+        "building": "A",
+        "floor": 1,
+        "roomNumbers": ["PH1"],
+        "nearbyLandmarks": ["Radiology", "Cafeteria"],
+        "services": ["Medicine Dispensing", "24/7 Service"]
+      }
+    }
+  },
+
+  "inpatientSchedules": {
+    "P002": {
+      "patientName": "Sameer Kumar",
+      "room": "304",
+      "todaySchedule": [
+        {
+          "time": "07:00",
+          "event": "Breakfast",
+          "type": "meal"
+        },
+        {
+          "time": "08:30",
+          "event": "Medicine Administration",
+          "type": "medication",
+          "staff": "Nurse Fatima Khan"
+        },
+        {
+          "time": "10:00",
+          "event": "Doctor Rounds",
+          "type": "checkup",
+          "staff": "Dr. Ravi Mehta"
+        },
+        {
+          "time": "10:15",
+          "event": "Nurse Visit",
+          "type": "nursing",
+          "staff": "Nurse Fatima Khan"
+        },
+        {
+          "time": "12:30",
+          "event": "Lunch",
+          "type": "meal"
+        },
+        {
+          "time": "14:00",
+          "event": "Physiotherapy Session",
+          "type": "therapy",
+          "location": "Physiotherapy Unit, Building B"
+        },
+        {
+          "time": "16:00",
+          "event": "Medicine Administration",
+          "type": "medication",
+          "staff": "Nurse Fatima Khan"
+        },
+        {
+          "time": "19:00",
+          "event": "Dinner",
+          "type": "meal"
+        },
+        {
+          "time": "21:00",
+          "event": "Night Medicine",
+          "type": "medication",
+          "staff": "Night Nurse"
+        }
+      ]
+    },
+    "P004": {
+      "patientName": "Rajesh Patel",
+      "room": "502",
+      "todaySchedule": [
+        {
+          "time": "07:00",
+          "event": "Breakfast",
+          "type": "meal"
+        },
+        {
+          "time": "09:00",
+          "event": "Blood Test",
+          "type": "test",
+          "location": "Laboratory, Building A"
+        },
+        {
+          "time": "11:00",
+          "event": "Doctor Visit",
+          "type": "checkup",
+          "staff": "Dr. Sarah Khan"
+        },
+        {
+          "time": "12:30",
+          "event": "Lunch",
+          "type": "meal"
+        },
+        {
+          "time": "15:00",
+          "event": "X-Ray",
+          "type": "imaging",
+          "location": "Radiology, Building A, Floor 1"
+        },
+        {
+          "time": "19:00",
+          "event": "Dinner",
+          "type": "meal"
+        }
+      ]
+    }
+  },
+
+  "visitors": [
+    {
+      "id": "V001",
+      "name": "Amit Verma",
+      "visitingPatient": "P002",
+      "relation": "Son",
+      "visitTime": "10:00-11:00"
+    },
+    {
+      "id": "V002",
+      "name": "Sunita Patel",
+      "visitingPatient": "P004",
+      "relation": "Wife",
+      "visitTime": "16:00-18:00"
+    }
+  ],
+
+  "navigationPhrases": {
+    "Radiology": "Radiology Department is located on the 1st floor of Building A, near the Pharmacy. Take the main elevator and turn right when you exit.",
+    "Emergency": "Emergency Department is on the ground floor of Building A. Follow the red signs from the main entrance.",
+    "Orthopedic": "Orthopedic Department is on the 2nd floor of Building B. Use the Building B elevators and turn left.",
+    "Pharmacy": "Pharmacy is on the 1st floor of Building A, next to Radiology Department.",
+    "Cafeteria": "Cafeteria is on the ground floor of Building A, near the main lobby.",
+    "Laboratory": "Laboratory is on the 2nd floor of Building A. Take the main elevator to floor 2."
+  },
+
+  "currentTime": "2025-06-28T10:15:00",
+  "hospitalInfo": {
+    "name": "City General Hospital",
+    "address": "123 Healthcare, lucknow, uttarpradesh",
+    "emergency": "102",
+    "reception": "+91-612-2345678"
+  }
+}

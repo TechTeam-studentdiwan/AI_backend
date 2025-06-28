@@ -67,3 +67,8 @@ async def get_user_conversations(user_id: str, limit: int = 20):
     async for conv in cursor:
         conversations.append(conv)
     return conversations
+
+async def get_total_conversation_count():
+    """Get total count of conversations in the database"""
+    count = await db.database.conversations.count_documents({})
+    return count

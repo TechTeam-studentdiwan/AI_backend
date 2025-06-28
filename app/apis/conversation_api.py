@@ -3,9 +3,12 @@ from datetime import datetime
 import random
 from typing import Optional
 
+from openai import api_key
+
 from models import *
 from core.database import *
 from services import OpenAIService
+
 
 # Initialize OpenAI service
 openai_service = OpenAIService()
@@ -19,10 +22,10 @@ def setup_routes(app: FastAPI):
     async def start_conversation(request: StartConversationRequest):
         """Start a new conversation"""
         try:
-            # Generate unique conversation ID in the format CHAT-{random_string}-{timestamp}
-            random_string = ''.join(random.choices('abcdefghijklmnopqrstuvwxyz0123456789', k=8))
+            # Generate unique conversation ID in the format T-{total_count}-{date}
+            total_count = await get_total_conversation_count()
             timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
-            conversation_id = f"chat-{random_string}-{timestamp}"
+            conversation_id = f"T-{total_count}-{timestamp}"
 
             # Initialize messages list
             messages = []
