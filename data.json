@@ -2,18 +2,19 @@
   "patients": [
     {
       "id": "P001",
-      "name": "John Smith",
+      "name": "Khalid Al-Mahmoud",
       "age": 45,
       "gender": "Male",
       "faceId": "face_001",
       "type": "outpatient",
-      "medicalRecord": "MR-2024-001",
-      "phone": "+91-9876543210",
-      "emergencyContact": "+91-9876543211"
+      "medicalRecord": "QRI-2024-001",
+      "phone": "+974-5512-3456",
+      "emergencyContact": "+974-5512-3457",
+      "qatarId": "28574123456789"
     },
     {
       "id": "P002",
-      "name": "Sameer Kumar",
+      "name": "Sameer Al-Rashid",
       "age": 58,
       "gender": "Male",
       "faceId": "face_002",
@@ -21,22 +22,24 @@
       "roomNumber": "304",
       "bedNumber": "A",
       "admissionDate": "2025-06-25",
-      "medicalRecord": "MR-2024-002",
-      "phone": "+91-9876543220"
+      "medicalRecord": "QRI-2024-002",
+      "phone": "+974-6612-7890",
+      "qatarId": "26712345678901"
     },
     {
       "id": "P003",
-      "name": "Priya Sharma",
+      "name": "Fatima Al-Thani",
       "age": 32,
       "gender": "Female",
       "faceId": "face_003",
       "type": "outpatient",
-      "medicalRecord": "MR-2024-003",
-      "phone": "+91-9876543230"
+      "medicalRecord": "QRI-2024-003",
+      "phone": "+974-7012-3456",
+      "qatarId": "29312345678902"
     },
     {
       "id": "P004",
-      "name": "Rajesh Patel",
+      "name": "Mohammed Al-Kuwari",
       "age": 67,
       "gender": "Male",
       "faceId": "face_004",
@@ -44,17 +47,19 @@
       "roomNumber": "502",
       "bedNumber": "B",
       "admissionDate": "2025-06-26",
-      "medicalRecord": "MR-2024-004"
+      "medicalRecord": "QRI-2024-004",
+      "qatarId": "25812345678903"
     },
     {
       "id": "P005",
-      "name": "Fatima Ahmed",
+      "name": "Aisha Hassan",
       "age": 41,
       "gender": "Female",
       "faceId": "face_005",
       "type": "outpatient",
-      "medicalRecord": "MR-2024-005",
-      "phone": "+91-9876543240"
+      "medicalRecord": "QRI-2024-005",
+      "phone": "+974-3312-9876",
+      "qatarId": "28412345678904"
     }
   ],
 
@@ -62,24 +67,25 @@
     {
       "id": "APT001",
       "patientId": "P001",
-      "patientName": "John Smith",
+      "patientName": "Khalid Al-Mahmoud",
       "doctorId": "D001",
       "doctorName": "Dr. Sarah Khan",
-      "department": "Orthopedic",
+      "department": "Orthopedic Rehabilitation",
       "date": "2025-06-28",
       "time": "10:30",
       "room": "205",
       "building": "B",
       "status": "scheduled",
-      "type": "follow-up"
+      "type": "follow-up",
+      "therapyType": "Post-Surgery Rehabilitation"
     },
     {
       "id": "APT002",
       "patientId": "P003",
-      "patientName": "Priya Sharma",
+      "patientName": "Fatima Al-Thani",
       "doctorId": "D002",
-      "doctorName": "Dr. Ravi Mehta",
-      "department": "Cardiology",
+      "doctorName": "Dr. Ahmed Mansour",
+      "department": "Cardiac Rehabilitation",
       "date": "2025-06-28",
       "time": "11:00",
       "room": "112",
@@ -90,16 +96,16 @@
     {
       "id": "APT003",
       "patientId": "P005",
-      "patientName": "Fatima Ahmed",
+      "patientName": "Aisha Hassan",
       "doctorId": "D003",
-      "doctorName": "Dr. Anjali Gupta",
-      "department": "Gynecology",
+      "doctorName": "Dr. Maryam Al-Sulaiti",
+      "department": "Neurological Rehabilitation",
       "date": "2025-06-28",
       "time": "14:30",
       "room": "310",
       "building": "C",
       "status": "scheduled",
-      "type": "check-up"
+      "type": "assessment"
     }
   ],
 
@@ -107,46 +113,51 @@
     {
       "id": "D001",
       "name": "Dr. Sarah Khan",
-      "role": "Senior Orthopedic Surgeon",
-      "department": "Orthopedic",
-      "specialization": "Joint Replacement",
+      "role": "Senior Rehabilitation Specialist",
+      "department": "Orthopedic Rehabilitation",
+      "specialization": "Joint Replacement Recovery",
       "room": "205",
       "building": "B",
-      "availability": "Mon-Sat 9:00-17:00"
+      "availability": "Sun-Thu 8:00-16:00",
+      "languages": ["English", "Arabic", "Urdu"]
     },
     {
       "id": "D002",
-      "name": "Dr. Ravi Mehta",
-      "role": "Cardiologist",
-      "department": "Cardiology",
-      "specialization": "Interventional Cardiology",
+      "name": "Dr. Ahmed Mansour",
+      "role": "Cardiac Rehabilitation Physician",
+      "department": "Cardiac Rehabilitation",
+      "specialization": "Post-MI Recovery",
       "room": "112",
-      "building": "A"
+      "building": "A",
+      "languages": ["Arabic", "English", "French"]
     },
     {
       "id": "D003",
-      "name": "Dr. Anjali Gupta",
-      "role": "Gynecologist",
-      "department": "Gynecology",
-      "specialization": "Obstetrics",
+      "name": "Dr. Maryam Al-Sulaiti",
+      "role": "Neurologist",
+      "department": "Neurological Rehabilitation",
+      "specialization": "Stroke Recovery",
       "room": "310",
-      "building": "C"
+      "building": "C",
+      "languages": ["Arabic", "English"]
     },
     {
       "id": "N001",
-      "name": "Nurse Fatima Khan",
-      "role": "Head Nurse",
-      "department": "General Ward",
+      "name": "Nurse Fatima Al-Dosari",
+      "role": "Head Rehabilitation Nurse",
+      "department": "Inpatient Care",
       "shift": "Morning",
-      "assignedFloors": [3, 4]
+      "assignedFloors": [3, 4],
+      "languages": ["Arabic", "English", "Malayalam"]
     },
     {
       "id": "N002",
-      "name": "Nurse Preethi Singh",
+      "name": "Nurse Preethi Kumar",
       "role": "Staff Nurse",
-      "department": "ICU",
+      "department": "Intensive Rehabilitation Unit",
       "shift": "Morning",
-      "assignedFloors": [5]
+      "assignedFloors": [5],
+      "languages": ["English", "Hindi", "Arabic"]
     }
   ],
 
@@ -154,21 +165,21 @@
     "buildings": [
       {
         "id": "A",
-        "name": "Main Building",
+        "name": "Main Rehabilitation Center",
         "floors": 5,
-        "departments": ["Emergency", "Radiology", "Cardiology", "Laboratory", "Pharmacy"]
+        "departments": ["Emergency", "Radiology", "Cardiac Rehabilitation", "Hydrotherapy Pool", "Pharmacy"]
       },
       {
         "id": "B",
-        "name": "Specialty Center",
+        "name": "Orthopedic & Sports Medicine",
         "floors": 4,
-        "departments": ["Orthopedic", "Neurology", "Ophthalmology", "ENT"]
+        "departments": ["Orthopedic Rehabilitation", "Sports Injury Center", "Prosthetics & Orthotics", "Gait Analysis Lab"]
       },
       {
         "id": "C",
-        "name": "Women & Children",
+        "name": "Neurological & Pediatric Center",
         "floors": 3,
-        "departments": ["Gynecology", "Obstetrics", "Pediatrics", "NICU"]
+        "departments": ["Neurological Rehabilitation", "Pediatric Rehabilitation", "Speech Therapy", "Occupational Therapy"]
       }
     ],
 
@@ -177,82 +188,127 @@
         "building": "A",
         "floor": 1,
         "roomNumbers": ["101", "102", "103"],
-        "nearbyLandmarks": ["Pharmacy", "Main Reception"],
+        "nearbyLandmarks": ["Pharmacy", "Main Reception", "Prayer Room"],
         "services": ["X-Ray", "MRI", "CT Scan", "Ultrasound"]
       },
-      "Orthopedic": {
+      "Orthopedic Rehabilitation": {
         "building": "B",
         "floor": 2,
         "roomNumbers": ["201", "202", "203", "204", "205"],
-        "nearbyLandmarks": ["Elevator Bank B", "Physiotherapy"],
-        "services": ["Consultation", "Minor Procedures", "Cast Room"]
+        "nearbyLandmarks": ["Elevator Bank B", "Physiotherapy Gym"],
+        "services": ["Post-Surgery Rehab", "Manual Therapy", "Biomechanical Assessment"]
       },
       "Emergency": {
         "building": "A",
         "floor": 0,
         "roomNumbers": ["ER1", "ER2", "ER3", "ER4"],
-        "nearbyLandmarks": ["Main Entrance", "Ambulance Bay"],
-        "services": ["24/7 Emergency Care", "Trauma Center"]
+        "nearbyLandmarks": ["Main Entrance", "Ambulance Bay", "Valet Parking"],
+        "services": ["24/7 Emergency Care", "Urgent Rehabilitation Needs"]
       },
       "Pharmacy": {
         "building": "A",
         "floor": 1,
         "roomNumbers": ["PH1"],
-        "nearbyLandmarks": ["Radiology", "Cafeteria"],
-        "services": ["Medicine Dispensing", "24/7 Service"]
+        "nearbyLandmarks": ["Radiology", "Costa Coffee", "ATM"],
+        "services": ["Medicine Dispensing", "24/7 Service", "Home Delivery"]
+      },
+      "Hydrotherapy Pool": {
+        "building": "A",
+        "floor": 2,
+        "roomNumbers": ["HT1"],
+        "nearbyLandmarks": ["Changing Rooms", "Physiotherapy"],
+        "services": ["Aquatic Therapy", "Swimming Rehabilitation"]
       }
+    },
+
+    "amenities": {
+      "prayerRooms": [
+        {"location": "Building A, Floor 1", "type": "Men's Prayer Room"},
+        {"location": "Building A, Floor 1", "type": "Women's Prayer Room"}
+      ],
+      "cafeteria": "Ground Floor, Building A - Serves Halal food",
+      "parking": "Valet service available, Underground parking for 500 cars",
+      "shops": ["Costa Coffee", "Pharmacy", "Medical Supplies Store"]
     }
   },
 
   "inpatientSchedules": {
     "P002": {
-      "patientName": "Sameer Kumar",
+      "patientName": "Sameer Al-Rashid",
       "room": "304",
       "todaySchedule": [
         {
+          "time": "06:00",
+          "event": "Fajr Prayer Time",
+          "type": "prayer"
+        },
+        {
           "time": "07:00",
           "event": "Breakfast",
-          "type": "meal"
+          "type": "meal",
+          "menu": "Arabic breakfast with dates, labneh, and khubz"
         },
         {
           "time": "08:30",
           "event": "Medicine Administration",
           "type": "medication",
-          "staff": "Nurse Fatima Khan"
+          "staff": "Nurse Fatima Al-Dosari"
         },
         {
           "time": "10:00",
           "event": "Doctor Rounds",
           "type": "checkup",
-          "staff": "Dr. Ravi Mehta"
+          "staff": "Dr. Ahmed Mansour"
         },
         {
           "time": "10:15",
           "event": "Nurse Visit",
           "type": "nursing",
-          "staff": "Nurse Fatima Khan"
+          "staff": "Nurse Fatima Al-Dosari"
+        },
+        {
+          "time": "11:30",
+          "event": "Dhuhr Prayer Time",
+          "type": "prayer"
         },
         {
           "time": "12:30",
           "event": "Lunch",
-          "type": "meal"
+          "type": "meal",
+          "menu": "Machbous with grilled fish"
         },
         {
           "time": "14:00",
           "event": "Physiotherapy Session",
           "type": "therapy",
-          "location": "Physiotherapy Unit, Building B"
+          "location": "Physiotherapy Gym, Building B"
+        },
+        {
+          "time": "15:00",
+          "event": "Asr Prayer Time",
+          "type": "prayer"
         },
         {
           "time": "16:00",
           "event": "Medicine Administration",
           "type": "medication",
-          "staff": "Nurse Fatima Khan"
+          "staff": "Nurse Fatima Al-Dosari"
+        },
+        {
+          "time": "17:30",
+          "event": "Maghrib Prayer Time",
+          "type": "prayer"
         },
         {
           "time": "19:00",
           "event": "Dinner",
-          "type": "meal"
+          "type": "meal",
+          "menu": "Harees with Arabic salad"
+        },
+        {
+          "time": "19:00",
+          "event": "Isha Prayer Time",
+          "type": "prayer"
         },
         {
           "time": "21:00",
@@ -263,7 +319,7 @@
       ]
     },
     "P004": {
-      "patientName": "Rajesh Patel",
+      "patientName": "Mohammed Al-Kuwari",
       "room": "502",
       "todaySchedule": [
         {
@@ -289,6 +345,12 @@
           "type": "meal"
         },
         {
+          "time": "14:30",
+          "event": "Hydrotherapy Session",
+          "type": "therapy",
+          "location": "Hydrotherapy Pool, Building A, Floor 2"
+        },
+        {
           "time": "15:00",
           "event": "X-Ray",
           "type": "imaging",
@@ -306,34 +368,49 @@
   "visitors": [
     {
       "id": "V001",
-      "name": "Amit Verma",
+      "name": "Ahmed Al-Rashid",
       "visitingPatient": "P002",
       "relation": "Son",
-      "visitTime": "10:00-11:00"
+      "visitTime": "10:00-11:00",
+      "qatarId": "29812345678905"
     },
     {
       "id": "V002",
-      "name": "Sunita Patel",
+      "name": "Noora Al-Kuwari",
       "visitingPatient": "P004",
       "relation": "Wife",
-      "visitTime": "16:00-18:00"
+      "visitTime": "16:00-18:00",
+      "qatarId": "27612345678906"
     }
   ],
 
   "navigationPhrases": {
-    "Radiology": "Radiology Department is located on the 1st floor of Building A, near the Pharmacy. Take the main elevator and turn right when you exit.",
-    "Emergency": "Emergency Department is on the ground floor of Building A. Follow the red signs from the main entrance.",
-    "Orthopedic": "Orthopedic Department is on the 2nd floor of Building B. Use the Building B elevators and turn left.",
-    "Pharmacy": "Pharmacy is on the 1st floor of Building A, next to Radiology Department.",
-    "Cafeteria": "Cafeteria is on the ground floor of Building A, near the main lobby.",
-    "Laboratory": "Laboratory is on the 2nd floor of Building A. Take the main elevator to floor 2."
+    "Radiology": "Radiology Department is located on the 1st floor of Building A, near the Pharmacy and Prayer Room. Take the main elevator and turn right when you exit.",
+    "Emergency": "Emergency Department is on the ground floor of Building A. Follow the red signs from the main entrance near the valet parking.",
+    "Orthopedic Rehabilitation": "Orthopedic Rehabilitation is on the 2nd floor of Building B. Use the Building B elevators and turn left towards the Physiotherapy Gym.",
+    "Pharmacy": "Pharmacy is on the 1st floor of Building A, next to Radiology Department and Costa Coffee.",
+    "Cafeteria": "Cafeteria serving Halal food is on the ground floor of Building A, near the main lobby.",
+    "Hydrotherapy Pool": "Hydrotherapy Pool is on the 2nd floor of Building A. Take the elevator and follow signs to the pool area.",
+    "Prayer Room": "Prayer Rooms are on the 1st floor of Building A. Separate rooms for men and women are available."
   },
 
   "currentTime": "2025-06-28T10:15:00",
   "hospitalInfo": {
-    "name": "City General Hospital",
-    "address": "123 Healthcare, lucknow, uttarpradesh",
-    "emergency": "102",
-    "reception": "+91-612-2345678"
+    "name": "Qatar Rehabilitation Institute",
+    "address": "Al Rayyan Road, Doha, Qatar",
+    "emergency": "999",
+    "reception": "+974-4439-7777",
+    "website": "www.qri.org.qa",
+    "affiliation": "Hamad Medical Corporation",
+    "languages": ["Arabic", "English", "Urdu", "Hindi", "Malayalam"]
+  },
+
+  "qatarSpecificInfo": {
+    "insuranceAccepted": ["Hamad Health Card", "QIC", "AXA", "Allianz", "Qatar Insurance Company"],
+    "workingHours": "Sunday to Thursday: 7:00 AM - 10:00 PM, Friday-Saturday: 2:00 PM - 10:00 PM",
+    "publicHolidays": ["Eid Al-Fitr", "Eid Al-Adha", "Qatar National Day (Dec 18)", "National Sports Day"],
+    "wheelchairAccessible": true,
+    "valetParking": true,
+    "freeWifi": true
   }
 }

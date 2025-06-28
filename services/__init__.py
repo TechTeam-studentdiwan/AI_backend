@@ -36,12 +36,18 @@ class OpenAIService:
                 model="gpt-4.1-mini",
                 tools=[{
                     "type": "file_search",
-                    "vector_store_ids": ["vs_685f67805e008191aa538804d4e40c50"],
+                    "vector_store_ids": ["vs_685fcdd9efc4819181f28dd3d852d90d"],
                 }],
                 input=openai_messages
             )
 
-            return response.output[1].content[0].text
+            print(response)
+
+            try:
+                return response.output[1].content[0].text
+            except Exception as e:
+                print("no vector store utilised")
+                return response.output[0].content[0].text
 
         except Exception as e:
             raise Exception(f"OpenAI API error: {str(e)}")
