@@ -41,9 +41,6 @@ class OpenAIService:
                 }],
                 input=openai_messages
             )
-
-            print(response)
-
             try:
                 return response.output[1].content[0].text
             except Exception as e:

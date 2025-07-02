@@ -22,6 +22,7 @@ def setup_routes(app: FastAPI):
     async def start_conversation(request: StartConversationRequest):
         """Start a new conversation"""
         try:
+           
             # Generate unique conversation ID in the format T-{total_count}-{date}
             total_count = await get_total_conversation_count()
             timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
@@ -141,6 +142,13 @@ def setup_routes(app: FastAPI):
                 all_messages,
                 system_prompt
             )
+            edit_res = ai_response.split(".")
+            if(len(edit_res) >= 2):
+                ai_response = f"{edit_res[0]}. {edit_res[1]}"
+            
+            else:
+                ai_response = edit_res[0]
+            
 
             # Add AI response to conversation
             ai_message = Message(
@@ -155,10 +163,13 @@ def setup_routes(app: FastAPI):
                 if title:
                     await update_conversation(conversation_id, {"title": title})
             conversation = await get_conversation(conversation_id)        
-            return {
-                "ai_response": ai_message.dict(),
-                "conversation" :conversation
-            }
+            return ConversationHistoryResponse(
+                conversation_id=conversation["conversation_id"],
+                messages=[Message(**msg) for msg in conversation["messages"]],
+                created_at=conversation["created_at"],
+                updated_at=conversation["updated_at"],
+                title=conversation.get("title")
+            )
 
         except HTTPException:
             raise
