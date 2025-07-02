@@ -1,7 +1,37 @@
 from openai import AsyncOpenAI
 import os
 from typing import List
-from models import Message, MessageRole
+from models import Message
+from fastapi import Depends, HTTPException
+from core.database import get_db
+from models.patient import Patient
+
+# OpenAI function schema for getting patient details
+GET_PATIENT_DETAILS_FUNCTION = {
+    "name": "get_patient_details",
+    "description": "Get patient details from hospital in real time.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "patient_id": {"type": "string", "description": "The unique patient ID."},
+            "hospital_id": {"type": "string", "description": "The hospital's unique ID."}
+        },
+        "required": ["patient_id", "hospital_id"]
+    }
+}
+
+GET_PATIENT_DETAILS_BY_NAME_FUNCTION = {
+    "name": "get_patient_details_by_name",
+    "description": "Get patient details from hospital in real time using patient name and hospital ID.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "name": {"type": "string", "description": "The patient's name."},
+            "hospital_id": {"type": "string", "description": "The hospital's unique ID."}
+        },
+        "required": ["name", "hospital_id"]
+    }
+}
 
 class OpenAIService:
     def __init__(self):
@@ -79,3 +109,14 @@ class OpenAIService:
             else:
                 print(f"Warning: OpenAI API error when generating conversation title: {error_message}")
             return None
+
+    # Example: integrate function call into chat logic (pseudo-code)
+    # async def chat_with_functions(self, ...):
+    #     ...
+    #     functions=[GET_PATIENT_DETAILS_FUNCTION, GET_PATIENT_DETAILS_BY_NAME_FUNCTION]
+    #     ...
+    #     if function_call.name == "get_patient_details":
+    #         return await self.get_patient_details(**function_call.arguments)
+    #     elif function_call.name == "get_patient_details_by_name":
+    #         return await self.get_patient_details_by_name(**function_call.arguments)
+    #     ...

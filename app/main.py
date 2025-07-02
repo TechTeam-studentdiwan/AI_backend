@@ -3,7 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from app.apis.conversation_api import setup_routes
-from core.database import *
+from core.database import get_db, close_mongo_connection, connect_to_mongo
+
 
 # Lifespan context manager for startup/shutdown
 @asynccontextmanager

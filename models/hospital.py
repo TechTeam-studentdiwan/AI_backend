@@ -1,10 +1,10 @@
 from typing import List, Optional
-from pymongo import MongoClient
 from pymongo.collection import Collection
-from core.database import get_db
+
 
 class Hospital:
     def __init__(self):
+        from core.database import get_db  # moved import here to avoid circular import
         self.collection: Collection = get_db()["hospitals"]
 
     def create_hospital(self, name: str, address: str, phone: str, departments: List[str]) -> dict:
