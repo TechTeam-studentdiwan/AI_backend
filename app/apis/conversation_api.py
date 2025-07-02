@@ -154,9 +154,10 @@ def setup_routes(app: FastAPI):
                 title = await openai_service.generate_conversation_title(all_messages)
                 if title:
                     await update_conversation(conversation_id, {"title": title})
-
+            conversation = await get_conversation(conversation_id)        
             return {
-                "ai_response": ai_message.dict()
+                "ai_response": ai_message.dict(),
+                "conversation" :conversation
             }
 
         except HTTPException:
