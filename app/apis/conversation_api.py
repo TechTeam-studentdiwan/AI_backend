@@ -22,7 +22,7 @@ def setup_routes(app: FastAPI):
     async def start_conversation(request: StartConversationRequest):
         """Start a new conversation"""
         try:
-            print("stRTTTTTTTTTTTTTTTTTT")
+           
             # Generate unique conversation ID in the format T-{total_count}-{date}
             total_count = await get_total_conversation_count()
             timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
@@ -142,6 +142,7 @@ def setup_routes(app: FastAPI):
                 all_messages,
                 system_prompt
             )
+            edit_res = ai_response.split(".")
             if(len(edit_res) >= 2):
                 ai_response = f"{edit_res[0]}. {edit_res[1]}"
             
