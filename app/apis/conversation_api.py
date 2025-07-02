@@ -1,12 +1,11 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException
 from datetime import datetime
-import random
-from typing import Optional
-
-from openai import api_key
 
 from models import *
-from core.database import *
+from core.database import get_db, get_total_conversation_count, db, create_conversation, update_conversation, \
+    add_message_to_conversation, get_user_conversations, get_conversation
+from models.coversation_models import StartConversationResponse, StartConversationRequest, MessageRole, \
+    AddMessageRequest, ConversationHistoryResponse
 from services import OpenAIService
 
 
@@ -23,7 +22,7 @@ def setup_routes(app: FastAPI):
         """Start a new conversation"""
         try:
             # Generate unique conversation ID in the format T-{total_count}-{date}
-            total_count = await get_total_conversation_count()
+            total_count = await get_total_conversation_count(db)
             timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
             conversation_id = f"T-{total_count}-{timestamp}"
 
@@ -53,7 +52,7 @@ def setup_routes(app: FastAPI):
             )
 
             # Save to MongoDB
-            await create_conversation(conversation)
+            await create_conversation(conversation, db)
 
             # If initial message provided, generate AI response
             if request.initial_message:
@@ -89,7 +88,7 @@ def setup_routes(app: FastAPI):
     async def get_conversation_history(conversation_id: str):
         """Get all messages from a conversation"""
         try:
-            conversation = await get_conversation(conversation_id)
+            conversation = await get_conversation(conversation_id, db)
 
             if not conversation:
                 raise HTTPException(status_code=404, detail="Conversation not found")
@@ -112,7 +111,7 @@ def setup_routes(app: FastAPI):
         """Add a user message and get AI response"""
         try:
             # Get existing conversation
-            conversation = await get_conversation(conversation_id)
+            conversation = await get_conversation(conversation_id, db)
 
             if not conversation:
                 raise HTTPException(status_code=404, detail="Conversation not found")
@@ -123,7 +122,7 @@ def setup_routes(app: FastAPI):
                 content=request.message,
                 metadata=request.metadata
             )
-            await add_message_to_conversation(conversation_id, user_message)
+            await add_message_to_conversation(conversation_id, user_message, db)
 
             # Get all messages for context
             all_messages = [Message(**msg) for msg in conversation["messages"]]
@@ -147,13 +146,13 @@ def setup_routes(app: FastAPI):
                 role=MessageRole.ASSISTANT,
                 content=ai_response
             )
-            await add_message_to_conversation(conversation_id, ai_message)
+            await add_message_to_conversation(conversation_id, ai_message, db)
 
             # Update title if not set and we have enough messages
             if not conversation.get("title") and len(all_messages) >= 2:
                 title = await openai_service.generate_conversation_title(all_messages)
                 if title:
-                    await update_conversation(conversation_id, {"title": title})
+                    await update_conversation(conversation_id, {"title": title}, db)
 
             return {
                 "ai_response": ai_message.dict()
@@ -168,7 +167,7 @@ def setup_routes(app: FastAPI):
     async def get_user_conversations_list(user_id: str, limit: int = 20):
         """Get all conversations for a user"""
         try:
-            conversations = await get_user_conversations(user_id, limit)
+            conversations = await get_user_conversations(user_id, limit, db)
 
             # Format response
             formatted_conversations = []
@@ -192,7 +191,8 @@ def setup_routes(app: FastAPI):
         try:
             result = await update_conversation(
                 conversation_id,
-                {"is_active": False, "updated_at": datetime.utcnow()}
+                {"is_active": False, "updated_at": datetime.utcnow()},
+                db
             )
 
             if not result:
