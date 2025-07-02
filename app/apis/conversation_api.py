@@ -1,17 +1,10 @@
 from fastapi import FastAPI, HTTPException, Depends
-from datetime import datetime
-import random
-from typing import Optional
-
-from openai import api_key
-
 from constants.constants import SYSTEM_PROMPT
-from models import *
 from core.database import *
+from models.coversation_models import StartConversationResponse, StartConversationRequest, MessageRole, \
+    ConversationHistoryResponse, AddMessageRequest
 from services import OpenAIService
 
-
-# Initialize OpenAI service
 openai_service = OpenAIService()
 
 def setup_routes(app: FastAPI):
@@ -20,12 +13,11 @@ def setup_routes(app: FastAPI):
         return {"hello": "world"}
 
     @app.post("/api/conversations/start", response_model=StartConversationResponse)
-    async def start_conversation(request: StartConversationRequest):
+    async def start_conversation(request: StartConversationRequest, db=Depends(get_db)):
         """Start a new conversation"""
         try:
-           
             # Generate unique conversation ID in the format T-{total_count}-{date}
-            total_count = await get_total_conversation_count()
+            total_count = await get_total_conversation_count(db)
             timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
             conversation_id = f"T-{total_count}-{timestamp}"
 
@@ -55,7 +47,7 @@ def setup_routes(app: FastAPI):
             )
 
             # Save to MongoDB
-            await create_conversation(conversation)
+            await create_conversation(conversation, db)
 
             # If initial message provided, generate AI response
             if request.initial_message:
@@ -69,7 +61,7 @@ def setup_routes(app: FastAPI):
                     role=MessageRole.ASSISTANT,
                     content=ai_response
                 )
-                await add_message_to_conversation(conversation_id, ai_message)
+                await add_message_to_conversation(conversation_id, ai_message, db)
 
                 # Generate title after first exchange
                 if len(messages) >= 1:
@@ -77,7 +69,7 @@ def setup_routes(app: FastAPI):
                         messages + [ai_message]
                     )
                     if title:
-                        await update_conversation(conversation_id, {"title": title})
+                        await update_conversation(conversation_id, {"title": title}, db)
 
             return StartConversationResponse(
                 conversation_id=conversation_id,
@@ -88,10 +80,10 @@ def setup_routes(app: FastAPI):
             raise HTTPException(status_code=500, detail=str(e))
 
     @app.get("/api/conversations/{conversation_id}", response_model=ConversationHistoryResponse)
-    async def get_conversation_history(conversation_id: str):
+    async def get_conversation_history(conversation_id: str, db=Depends(get_db)):
         """Get all messages from a conversation"""
         try:
-            conversation = await get_conversation(conversation_id)
+            conversation = await get_conversation(conversation_id, db)
 
             if not conversation:
                 raise HTTPException(status_code=404, detail="Conversation not found")
@@ -110,11 +102,11 @@ def setup_routes(app: FastAPI):
             raise HTTPException(status_code=500, detail=str(e))
 
     @app.post("/api/conversations/{conversation_id}/messages")
-    async def add_message(conversation_id: str, request: AddMessageRequest):
+    async def add_message(conversation_id: str, request: AddMessageRequest, db=Depends(get_db)):
         """Add a user message and get AI response"""
         try:
             # Get existing conversation
-            conversation = await get_conversation(conversation_id)
+            conversation = await get_conversation(conversation_id, db)
 
             if not conversation:
                 raise HTTPException(status_code=404, detail="Conversation not found")
@@ -125,7 +117,7 @@ def setup_routes(app: FastAPI):
                 content=request.message,
                 metadata=request.metadata
             )
-            await add_message_to_conversation(conversation_id, user_message)
+            await add_message_to_conversation(conversation_id, user_message, db)
 
             # Get all messages for context
             all_messages = [Message(**msg) for msg in conversation["messages"]]
@@ -138,31 +130,27 @@ def setup_routes(app: FastAPI):
                 # Remove system message from the list for OpenAI
                 all_messages = all_messages[1:]
 
-            # Generate AI response
             ai_response = await openai_service.generate_response(
                 all_messages,
             )
             edit_res = ai_response.split(".")
             if(len(edit_res) >= 2):
                 ai_response = f"{edit_res[0]}. {edit_res[1]}"
-            
             else:
                 ai_response = edit_res[0]
-            
 
-            # Add AI response to conversation
             ai_message = Message(
                 role=MessageRole.ASSISTANT,
                 content=ai_response
             )
-            await add_message_to_conversation(conversation_id, ai_message)
+            await add_message_to_conversation(conversation_id, ai_message, db)
 
             # Update title if not set and we have enough messages
             if not conversation.get("title") and len(all_messages) >= 2:
                 title = await openai_service.generate_conversation_title(all_messages)
                 if title:
-                    await update_conversation(conversation_id, {"title": title})
-            conversation = await get_conversation(conversation_id)
+                    await update_conversation(conversation_id, {"title": title}, db)
+            conversation = await get_conversation(conversation_id, db)
             del conversation["_id"]
 
             return ConversationHistoryResponse(

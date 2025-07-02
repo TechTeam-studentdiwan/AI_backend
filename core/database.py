@@ -33,21 +33,21 @@ async def get_db() -> AsyncGenerator:
         await close_mongo_connection()
 
 # Conversation operations
-async def create_conversation(conversation: Conversation, db=Depends(get_db)):
+async def create_conversation(conversation: Conversation, db):
     """Create a new conversation in MongoDB"""
     result = await db.conversations.insert_one(
         conversation.dict()
     )
     return str(result.inserted_id)
 
-async def get_conversation(conversation_id: str, db=Depends(get_db)):
+async def get_conversation(conversation_id: str, db):
     """Retrieve conversation by ID"""
     conversation = await db.conversations.find_one(
         {"conversation_id": conversation_id}
     )
     return conversation
 
-async def update_conversation(conversation_id: str, update_data: dict, db=Depends(get_db)):
+async def update_conversation(conversation_id: str, update_data: dict, db):
     """Update conversation"""
     result = await db.conversations.update_one(
         {"conversation_id": conversation_id},
@@ -55,7 +55,7 @@ async def update_conversation(conversation_id: str, update_data: dict, db=Depend
     )
     return result.modified_count > 0
 
-async def add_message_to_conversation(conversation_id: str, message: Message, db=Depends(get_db)):
+async def add_message_to_conversation(conversation_id: str, message: Message, db):
     """Add a message to existing conversation"""
     result = await db.conversations.update_one(
         {"conversation_id": conversation_id},
@@ -66,7 +66,7 @@ async def add_message_to_conversation(conversation_id: str, message: Message, db
     )
     return result.modified_count > 0
 
-async def get_user_conversations(user_id: str, limit: int = 20, db=Depends(get_db)):
+async def get_user_conversations(user_id: str, limit: int = 20, db=None):
     """Get all conversations for a user"""
     cursor = db.conversations.find(
         {"user_id": user_id, "is_active": True}
@@ -77,7 +77,7 @@ async def get_user_conversations(user_id: str, limit: int = 20, db=Depends(get_d
         conversations.append(conv)
     return conversations
 
-async def get_total_conversation_count(db=Depends(get_db)):
+async def get_total_conversation_count(db):
     """Get total count of conversations in the database"""
     count = await db.conversations.count_documents({})
     return count

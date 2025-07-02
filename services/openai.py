@@ -9,7 +9,7 @@ from models.patient import Patient
 # OpenAI function schema for getting patient details
 GET_PATIENT_DETAILS_FUNCTION = {
     "name": "get_patient_details",
-    "description": "Get patient details from hospital in real time.",
+    "description": "Get patient details from hospital in real time. with patient ID and hospital ID. patient_id start with p and hospital_id start with h",
     "parameters": {
         "type": "object",
         "properties": {
@@ -22,7 +22,7 @@ GET_PATIENT_DETAILS_FUNCTION = {
 
 GET_PATIENT_DETAILS_BY_NAME_FUNCTION = {
     "name": "get_patient_details_by_name",
-    "description": "Get patient details from hospital in real time using patient name and hospital ID.",
+    "description": "Get patient details from hospital in real time using patient name and hospital ID. hospital_id start with h",
     "parameters": {
         "type": "object",
         "properties": {
@@ -36,9 +36,9 @@ GET_PATIENT_DETAILS_BY_NAME_FUNCTION = {
 class OpenAIService:
     def __init__(self):
         self.client = AsyncOpenAI(
-            api_key=os.getenv("OPENAI_API_KEY")
+            api_key="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"
         )
-        self.model = os.getenv("OPENAI_MODEL", "gpt-4")
+        self.model = os.getenv("OPENAI_MODEL", "gpt-4.1-mini")
 
     async def generate_response(self, messages: List[Message], system_prompt=
             """You are a helpful assistant. Respond briefly, clearly, and only with directly relevant facts.

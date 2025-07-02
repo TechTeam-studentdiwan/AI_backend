@@ -8,7 +8,7 @@ from .openai import GET_PATIENT_DETAILS_FUNCTION, GET_PATIENT_DETAILS_BY_NAME_FU
 class OpenAIService:
     def __init__(self):
         self.client = AsyncOpenAI(
-            api_key=os.getenv("OPENAI_API_KEY")
+            api_key="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"
         )
         self.model = os.getenv("OPENAI_MODEL", "gpt-4.1-mini")
 
@@ -51,23 +51,44 @@ class OpenAIService:
             response = await self.client.chat.completions.create(
                 model=self.model,
                 messages=openai_messages,
-                functions=[GET_PATIENT_DETAILS_FUNCTION, GET_PATIENT_DETAILS_BY_NAME_FUNCTION],
+                functions=[GET_PATIENT_DETAILS_BY_NAME_FUNCTION],
                 function_call="auto",
                 temperature=0.7,
                 max_tokens=1000
             )
+            print(response)
             message = response.choices[0].message
             if hasattr(message, "function_call") and message.function_call:
+                print("function call")
+                print(message.function_call)
+                print(message.function_call.arguments)
                 fn = message.function_call
+                import json
+                args = json.loads(fn.arguments)
                 if fn.name == "get_patient_details":
-                    print("patient details function called")
-                    import json
-                    args = json.loads(fn.arguments)
-                    return await self.get_patient_details(**args)
+                    patient_details = await self.get_patient_details(**args)
+                    # Call OpenAI again to make the response readable
+                    readable_response = await self.client.chat.completions.create(
+                        model=self.model,
+                        messages=openai_messages + [
+                            {"role": "function", "name": fn.name, "content": str(patient_details)}
+                        ],
+                        temperature=0.7,
+                        max_tokens=1000
+                    )
+                    return readable_response.choices[0].message.content
                 elif fn.name == "get_patient_details_by_name":
-                    import json
-                    args = json.loads(fn.arguments)
-                    return await self.get_patient_details_by_name(**args)
+                    patient_details = await self.get_patient_details_by_name(**args)
+                    # Call OpenAI again to make the response readable
+                    readable_response = await self.client.chat.completions.create(
+                        model=self.model,
+                        messages=openai_messages + [
+                            {"role": "function", "name": fn.name, "content": str(patient_details)}
+                        ],
+                        temperature=0.7,
+                        max_tokens=1000
+                    )
+                    return readable_response.choices[0].message.content
             return message.content
         except Exception as e:
             error_message = str(e)
