@@ -5,6 +5,7 @@ from typing import Optional
 
 from openai import api_key
 
+from constants.constants import SYSTEM_PROMPT
 from models import *
 from core.database import *
 from services import OpenAIService
@@ -131,7 +132,7 @@ def setup_routes(app: FastAPI):
             all_messages.append(user_message)
 
             # Get system prompt if exists
-            system_prompt = None
+            system_prompt = SYSTEM_PROMPT
             if all_messages and all_messages[0].role == MessageRole.SYSTEM:
                 system_prompt = all_messages[0].content
                 # Remove system message from the list for OpenAI
@@ -140,7 +141,6 @@ def setup_routes(app: FastAPI):
             # Generate AI response
             ai_response = await openai_service.generate_response(
                 all_messages,
-                system_prompt
             )
             edit_res = ai_response.split(".")
             if(len(edit_res) >= 2):
@@ -162,7 +162,9 @@ def setup_routes(app: FastAPI):
                 title = await openai_service.generate_conversation_title(all_messages)
                 if title:
                     await update_conversation(conversation_id, {"title": title})
-            conversation = await get_conversation(conversation_id)        
+            conversation = await get_conversation(conversation_id)
+            del conversation["_id"]
+
             return ConversationHistoryResponse(
                 conversation_id=conversation["conversation_id"],
                 messages=[Message(**msg) for msg in conversation["messages"]],
