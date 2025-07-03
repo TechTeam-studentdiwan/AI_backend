@@ -3,7 +3,6 @@ from openai import AsyncOpenAI
 import os
 from typing import List
 from models import Message, MessageRole
-
 class OpenAIService:
     def __init__(self):
         self.client = AsyncOpenAI(
@@ -32,12 +31,11 @@ class OpenAIService:
 
 
         try:
-
             response = await self.client.responses.create(
                 model="gpt-4.1-mini",
                 tools=[{
                     "type": "file_search",
-                    "vector_store_ids": ["vs_685fcdd9efc4819181f28dd3d852d90d"],
+                    "vector_store_ids": ["vs_68662d0256788191affccfec189aafc9"],
                 }],
                 input=openai_messages
             )
