@@ -2,7 +2,7 @@ import motor.motor_asyncio
 from motor.motor_asyncio import AsyncIOMotorClient
 from typing import Optional, AsyncGenerator
 import os
-from models.coversation_models import Conversation, Message
+from models.conversation_models import Conversation, Message
 from datetime import datetime
 from fastapi import Depends
 

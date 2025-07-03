@@ -1,7 +1,7 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException
 from constants.constants import SYSTEM_PROMPT
 from core.database import *
-from models.coversation_models import StartConversationResponse, StartConversationRequest, MessageRole, \
+from models.conversation_models import StartConversationResponse, StartConversationRequest, MessageRole, \
     ConversationHistoryResponse, AddMessageRequest
 from services import OpenAIService
 
@@ -127,7 +127,6 @@ def setup_routes(app: FastAPI):
             system_prompt = SYSTEM_PROMPT
             if all_messages and all_messages[0].role == MessageRole.SYSTEM:
                 system_prompt = all_messages[0].content
-                # Remove system message from the list for OpenAI
                 all_messages = all_messages[1:]
 
             ai_response = await openai_service.generate_response(
