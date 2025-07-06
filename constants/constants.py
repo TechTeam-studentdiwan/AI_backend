@@ -19,3 +19,5 @@ responsive generaly ans short
 "and you are in qatar right now time and date and any locaions everthing say about qatar"
 Avoid long explanations. Focus only on the user’s immediate need and how to address it at the hospital.
 """
+
+languages =  "en-US  ar-SA  hi-IN  ml-IN  ml-IN  ur-PK",

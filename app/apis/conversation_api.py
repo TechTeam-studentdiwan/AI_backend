@@ -92,7 +92,6 @@ def setup_routes(app: FastAPI):
         """Get all messages from a conversation"""
         try:
             conversation = await get_conversation(conversation_id)
-
             if not conversation:
                 raise HTTPException(status_code=404, detail="Conversation not found")
 
@@ -177,6 +176,49 @@ def setup_routes(app: FastAPI):
             raise
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
+
+    @app.post("/api/conversations/message")
+    async def add_message( request: AddMessageRequest):
+        """Add a user message and get AI response"""
+        try:
+            # Add user message
+            user_message = Message(
+                role=MessageRole.USER,
+                content=request.message,
+                metadata=request.metadata
+            )
+
+            all_messages = [user_message]
+
+            # Get system prompt if exists
+            system_prompt = SYSTEM_PROMPT
+            if all_messages and all_messages[0].role == MessageRole.SYSTEM:
+                system_prompt = all_messages[0].content
+                all_messages = all_messages[1:]
+
+            ai_response = await openai_service.generate_response(
+                all_messages,
+                system_prompt
+            )
+            edit_res = ai_response.split(".")
+            if(len(edit_res) >= 2):
+                ai_response = f"{edit_res[0]}. {edit_res[1]}"
+            else:
+                ai_response = edit_res[0]
+
+
+            return ConversationHistoryResponse(
+                messages=ai_response,
+                conversation_id=None
+            
+            )
+
+        except HTTPException:
+            raise
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+
 
     @app.get("/api/users/{user_id}/conversations")
     async def get_user_conversations_list(user_id: str, limit: int = 20):
