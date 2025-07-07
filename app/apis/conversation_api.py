@@ -1,3 +1,5 @@
+import json
+
 from fastapi import FastAPI, HTTPException, Depends
 from datetime import datetime
 import random
@@ -200,18 +202,10 @@ def setup_routes(app: FastAPI):
                 all_messages,
                 system_prompt
             )
-            edit_res = ai_response.split(".")
-            if(len(edit_res) >= 2):
-                ai_response = f"{edit_res[0]}. {edit_res[1]}"
-            else:
-                ai_response = edit_res[0]
 
 
-            return ConversationHistoryResponse(
-                messages=ai_response,
-                conversation_id=None
-            
-            )
+
+            return json.loads(ai_response)
 
         except HTTPException:
             raise
