@@ -62,7 +62,6 @@
       "qatarId": "28412345678904"
     }
   ],
-
   "appointments": [
     {
       "id": "APT001",
@@ -108,7 +107,6 @@
       "type": "assessment"
     }
   ],
-
   "staff": [
     {
       "id": "D001",
@@ -160,7 +158,6 @@
       "languages": ["English", "Hindi", "Arabic"]
     }
   ],
-
   "hospitalLayout": {
     "buildings": [
       {
@@ -231,7 +228,6 @@
       "shops": ["Costa Coffee", "Pharmacy", "Medical Supplies Store"]
     }
   },
-
   "inpatientSchedules": {
     "P002": {
       "patientName": "Sameer Al-Rashid",
@@ -364,7 +360,6 @@
       ]
     }
   },
-
   "visitors": [
     {
       "id": "V001",
@@ -383,7 +378,6 @@
       "qatarId": "27612345678906"
     }
   ],
-
   "navigationPhrases": {
     "Radiology": "Radiology Department is located on the 1st floor of Building A, near the Pharmacy and Prayer Room. Take the main elevator and turn right when you exit.",
     "Emergency": "Emergency Department is on the ground floor of Building A. Follow the red signs from the main entrance near the valet parking.",
@@ -402,7 +396,6 @@
     "affiliation": "Hamad Medical Corporation",
     "languages": ["Arabic", "English", "Urdu", "Hindi", "Malayalam"]
   },
-
   "qatarSpecificInfo": {
     "insuranceAccepted": ["Hamad Health Card", "QIC", "AXA", "Allianz", "Qatar Insurance Company"],
     "workingHours": "Sunday to Thursday: 7:00 AM - 10:00 PM, Friday-Saturday: 2:00 PM - 10:00 PM",
