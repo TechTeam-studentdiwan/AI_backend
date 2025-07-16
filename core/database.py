@@ -72,3 +72,9 @@ async def get_total_conversation_count():
     """Get total count of conversations in the database"""
     count = await db.database.conversations.count_documents({})
     return count
+
+async def add_vector_to_conversation(vector_store_id: str, file_id: list):
+    """Add a vector to the conversation"""
+    await connect_to_mongo()
+    await db.database.vector_store.delete_many({})
+    await db.database.vector_store.insert_one({"vector_store_id": vector_store_id, "file_id": file_id})

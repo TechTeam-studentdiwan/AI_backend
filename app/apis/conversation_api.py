@@ -1,4 +1,6 @@
+import base64
 import json
+import tempfile
 
 from fastapi import FastAPI, HTTPException, Depends
 from datetime import datetime
@@ -7,6 +9,7 @@ from typing import Optional
 
 from openai import api_key
 
+from app.apis.vector_store_api import VectorStoreFileRequest
 from constants.constants import SYSTEM_PROMPT
 from models import *
 from core.database import *
@@ -17,6 +20,7 @@ from services import OpenAIService
 openai_service = OpenAIService()
 
 def setup_routes(app: FastAPI):
+
     @app.get("/hh")
     async def hello():
         return {"hello": "world"}
@@ -189,21 +193,22 @@ def setup_routes(app: FastAPI):
                 content=request.message,
                 metadata=request.metadata
             )
-
             all_messages = [user_message]
-
             # Get system prompt if exists
             system_prompt = SYSTEM_PROMPT
             if all_messages and all_messages[0].role == MessageRole.SYSTEM:
                 system_prompt = all_messages[0].content
                 all_messages = all_messages[1:]
 
+            # Fetch latest vector_store_id from MongoDB
+            await connect_to_mongo()
+            vector_store_doc = await db.database.vector_store.find_one({}, sort=[('_id', -1)])
+            vector_store_id = vector_store_doc["vector_store_id"] if vector_store_doc else None
             ai_response = await openai_service.generate_response(
                 all_messages,
-                system_prompt
+                [vector_store_id],
+                system_prompt,
             )
-
-
 
             return json.loads(ai_response)
 
@@ -254,3 +259,28 @@ def setup_routes(app: FastAPI):
             raise
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
+
+    @app.post("/api/vector-store/create-or-update")
+    async def create_or_update_vector_store(request: VectorStoreFileRequest):
+        """
+        Accepts file data as base64 in JSON, uploads to OpenAI, and creates a vector store.
+        """
+        openai_vector_service = OpenAIService()
+        try:
+            # Decode base64 file data and save to temp file
+            file_bytes = base64.b64decode(request.file_data)
+            with tempfile.NamedTemporaryFile(delete=False, suffix=f"_{request.filename}") as tmp:
+                tmp.write(file_bytes)
+                tmp_path = tmp.name
+
+            # Upload file to OpenAI
+            file_id = await openai_vector_service.upload_file(tmp_path)
+            # Create vector store
+            vector_store_id = await openai_vector_service.create_vector_store_with_file(name=request.name,
+                                                                                        file_id=file_id)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+        # Delete all previous records
+        await add_vector_to_conversation(vector_store_id, file_id)
+        return {"vector_store_id": vector_store_id, "file_id": file_id}
